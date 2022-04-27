@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>        
+        h3 {
+            text-align: center;
+        }
+        .searchForm {            
+            height: max-content;
+            display: flex;
+            flex-direction: row;   
+            justify-content: center;  
+            flex-wrap: wrap;       
+        }        
+        label {
+            height: 30px;
+            width: 50px;
+            margin: 10px;
+        }
+        input, select {
+            border: 1px solid gray;
+            height: 30px;
+            width: 100px;
+            margin: 10px;
+        }
+        #title {
+            width: 400px;
+        }
+        button {
+            height: 30px;
+            width:100px;
+            border: 2px solid gray;
+            margin: 10px;
+        }
+        #result {  
+            margin: 10px;
+            display: flex;
+            justify-content: center; 
+            flex-wrap: wrap;
+            }
+        .info {
+            margin: 10px;
+            padding: 10px;
+            border: 3px solid rgb(71, 100, 233);
+            display: flex;
+            flex-direction: column;   
+            justify-content: center;  
+            align-items: center;
+            }
+        .name {
+            margin: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration:underline;
+            color: blue;
+            }
+    </style>
+</head>
+<body>
+    <h3>Веб-страница для поиска фильмов</h3>
+    <div class="searchForm">
+        <label>Title:</label>
+        <input id="title" type="text">        
+        <label>Year:</label>
+        <input id="year" type="text">        
+        <label>Type:</label>
+        <select id="type" type="text" name="list" required>
+            <option></option>
+            <option>movie</option>
+            <option>series</option>
+            <option>episodet</option>
+            </select>    
+        <button id="search">Search</button>        
+        </div>
+    <div id="result"></div>
+
+    <template id="film">            
+        <div class="info">
+            <span class="name"></span>            
+            <span class="poster"></span>
+        </div>
+      </template>
+
+
+    <script>
+
+//'http://www.omdbapi.com/?apikey=a2b07930&s=test&type=movie&r=json' 
+
+const site = 'http://www.omdbapi.com/?apikey=a2b07930',
+    title = document.getElementById("title"),
+    year = document.getElementById("year"),
+    type = document.getElementById("type"),
+    result = document.getElementById("result");
+
+search.addEventListener('click', event=> {
+    document.getElementById("result").innerHTML = '';
+    getInfo(site, title.value, year.value, type.value);})
+
+function getInfo(site, title, year, type) {  
+    fetch(site+ "&s=" + title + "&y=" + year + "&type=" + type + "&r=json")
+    .then(response => response.json())
+    .then(resjson => showInfo(resjson))
+    .catch(error => alert(error.message));
+}
+
+function showInfo(resjson) {
+    const films = resjson.Search;
+    const tmpls=films.map((film) => {        
+        const template = document.getElementById("film");
+        let tmpl = template.content.cloneNode(true);
+        tmpl.querySelector("span.name")["textContent"] = film.Title + ' (' + film.Year +')' ;
+        let post = tmpl.querySelector("span.poster");
+        var pic = document.createElement("IMG");
+        pic.src = film.Poster;
+        pic.alt = 'poster';
+        post.appendChild(pic);
+        return tmpl;
+    });
+    document.getElementById("result").append(...tmpls);
+}
+
+    </script>
+</body>
+</html> 

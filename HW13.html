@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const cat = "https://www.svgimages.com/svg-image/s10/cute-cat-clip-art-256x256.png",
+        ok = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/274/thumbs-up_1f44d.png",
+        bad = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/274/thumbs-down_1f44e.png";
+
+// Вариант 1 с использованием Promise
+
+        function loadImgChain(src, okSrc, errorSrc) {
+            addImg(src).then(
+                result=>addImg(okSrc).then(result=>addSpan('ok'), error=>addSpan('error')),
+                error=>addImg(errorSrc).then(result=>addSpan('ok'), error=>addSpan('error'))
+            );
+        };
+
+        function addImg(path) {  
+            return new Promise((resolve, reject) => {
+                let img = document.createElement("img");
+                img.addEventListener("load", evt=>resolve(evt.target));
+                img.addEventListener("error", evt=>reject(evt));
+                img.src = path;
+                document.body.append(img); 
+            });
+        }
+
+        function addSpan (ind){
+            let span = document.createElement('span');
+            span.innerHTML=' indikator '+ind;
+            document.body.append(span);
+        }
+
+// Вариант 2 с с применением async/await
+/*
+        async function loadImgChain(src, okSrc, errorSrc) {     
+            try {       
+                let img = await addImg(src); 
+                if (img) {
+                    try {
+                        await addImg(okSrc);
+                        addSpan('ok');
+                    } catch (err) { addSpan('error'); }
+                } 
+            }catch (err)  { 
+                try {
+                    await addImg(errorSrc);
+                    addSpan('ok');
+                } catch (err) { addSpan('error'); }
+            }   
+        }
+*/
+     
+// ПРОВЕРКА
+    loadImgChain(cat,ok,bad);          // [😺] [👍] indicator ok
+    //loadImgChain(cat,'-',bad);    // [😺] [x] indicator error
+    //loadImgChain('-',ok,bad);    // [x] [👎] indicator ok
+    //loadImgChain('-',ok,'-');     // [x] [x] indicator error
+
+    </script>
+</body>
+</html>

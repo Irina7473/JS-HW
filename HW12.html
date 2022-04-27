@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+
+        .directory span {
+            text-decoration: none;
+        }
+        .directory span:hover {
+            font-weight: bold;
+        }
+
+        table, th, td {
+            border: 1px solid;
+            padding: 5px 10px;
+            width:max-content;
+        }
+
+    </style>
+</head>
+<body>
+    
+<h3>ЗАДАНИЕ 2</h3>
+<ul class="directory">
+    <li>This PC</li>
+        
+        <ul>
+            <li>Local Dick (C:)</li>
+            <ul>
+                <li>Program Files</li>
+                <li>Users</li>
+                <li>Windows</li>
+            </ul>
+        </ul>
+        <ul>
+            <li>Local Dick (D:)</li>
+            <ul>
+                <li>New Folder 1</li>
+                <li>New Folder 2</li>
+                <li>New Folder 3</li>
+            </ul>
+        </ul>
+        <ul>
+            <li>Local Dick (E:)</li>
+        </ul>
+           
+<h3>ЗАДАНИЕ 5</h3>
+<table id="sorted">
+    <thead>
+        <tr>
+            <th data-type="string">Фамилия</th>
+            <th data-type="string">Имя</th>
+            <th data-type="number">Возраст</th>
+            <th data-type="string">Пол</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+              <td>Петров</td>
+              <td>Семен</td>
+              <td>28</td>
+              <td>М</td>
+        </tr>
+        <tr>
+            <td>Иванов</td>
+            <td>Семен</td>
+            <td>35</td>
+            <td>М</td>
+        </tr>
+        <tr>
+            <td>Иванов</td>
+            <td>Петр</td>
+            <td>30</td>
+            <td>М</td>
+        </tr>
+        <tr>
+            <td>Иванова</td>
+            <td>Ольга</td>
+            <td>25</td>
+            <td>Ж</td>
+        </tr>
+        <tr>
+            <td>Петров</td>
+            <td>Антон</td>
+            <td>25</td>
+            <td>М</td>
+        </tr>
+    </tbody>
+
+</table>
+
+
+</ul>
+
+
+</body>
+<script>
+// Задание 1
+
+// Задание 2
+    $('li').wrapInner('<span></span>');
+    $('span').click(function(event){
+        let li = event.target.closest('li');
+        if (!li) return;
+        let container = $(li).parent().children('ul');
+        for (let ul of container) ul.hidden = !ul.hidden;  
+});
+
+// Задание 3
+
+// Задание 5
+
+document.getElementById('sorted').addEventListener('click', event=> {
+    let column = event.target.closest('th').cellIndex;
+    alert(column);
+    if (!column) return;
+    sortTable (column, th.dataset.type);         
+    }
+)
+
+function sortTable(number, type) {
+    let tbody = document.querySelector('tbody');
+    for (let tr of tbody) alert (tr.innerHTML);
+    let rowsArr = Array.from(tbody.rows);
+    rowsArr.forEach(alert);
+
+    rowsArr.sort(dataSorting);
+    tbody.append(...rowsArr);
+}
+
+function dataSorting (A,B, type){
+    switch (type) {
+        case 'number':
+          compare = function(rowA, rowB) {
+            return rowA.cells[number].innerHTML - rowB.cells[number].innerHTML;
+          };
+          break;
+        case 'string':
+          compare = function(rowA, rowB) {
+            return rowA.cells[number].innerHTML > rowB.cells[number].innerHTML ? 1 : -1;
+          };
+          break;
+    }
+}
+
+
+</script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .div1 {
+            width: 500px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+        }
+        .div2 {
+            background: rgb(227, 228, 245);
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap:wrap;
+            padding: 10px;
+
+        }
+        .add{
+            
+            background: rgba(100, 114, 241, 0.514);
+            width: max-content;
+            height: 30px;
+        }
+        .rem {
+            color:rgb(110, 6, 6);
+            background: rgba(252, 101, 0, 0.829);
+            width: 100px;
+            height: 30px;
+        }
+        h3 {
+            width: 380px;
+        }
+        p {
+            width: 500px;
+            padding: 10px 0px; 
+            border-bottom: 1px solid black;
+        }        
+    </style>
+</head>
+<body>
+    <hr>
+
+    
+</body>
+<script>
+    $('<button class="add">Добавить новость</button>').appendTo('body');
+    $('<div>', {'class':'div1'}).appendTo('body');
+    $('.add').click (function(){
+        header = prompt('Введите заголовок');
+        news = prompt('Введите новость');
+
+        $('<div>', {'class':'div2'}).prependTo('.div1').append (
+            $('<h3>', {'text': header}),
+            $('<button class="rem">X (удалить)</button>'),
+            $('<p>', {'text': news})
+        );
+        //$('<hr>').appendTo('.div1');   НЕ ВСТАВЛЯЕТСЯ       
+    });
+    $('.div1').on('click', '.rem', function(event) {
+        $(this).closest('.div2').remove();
+    });
+    
+</script>
+
+</html>
